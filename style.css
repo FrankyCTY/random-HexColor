@@ -278,10 +278,18 @@ input[type="range"] {
 
   * {
     font-size: 2vw;
+    outline: none;
   }
 
   .sliders {
     width: 50%;
-    
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none; /* Hides the slider so that custom slider can be made */
+    width: 100px;
+    height: 2vh;
+    /* Specific width is required for Firefox. */
+    background: transparent; /* Otherwise white in Chrome */
   }
 }
