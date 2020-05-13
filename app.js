@@ -30,9 +30,6 @@ class Coloor {
       //Generate 5 random colors and save it to an array.
 
       if (colorDiv.classList.contains("locked") && coloor.savedColors !== []) {
-        console.log("it is not empty now");
-        // currentColors.push(coloor.savedColors[index]);
-
         //!!!!!!!Use chroma because savedColors is a hex array but currentColors is a chroma object array.!!!!!!!
         currentColors.push(chroma(coloor.savedColors[index]));
       } else {
@@ -74,7 +71,6 @@ class Coloor {
       const [hue, brightness, saturation] = sliderDiv.querySelectorAll(
         'input[type="range"]'
       );
-      // console.log(saturation);
 
       //======== 1. Color Brightness slider ========
       const dark = "black";
@@ -119,7 +115,6 @@ class Coloor {
     const [hue, brightness, saturation] = obj.coloor.slidersDivs[
       obj.index
     ].querySelectorAll('input[type="range"]');
-    // console.log(saturation);
 
     //======== 1. Color Brightness slider ========
     const dark = "black";
@@ -235,9 +230,6 @@ class Coloor {
 
   //======================== Utils ========================
   generateClrFromSliders(obj) {
-    // console.log(coloor.savedColors);
-    console.log(obj.coloor);
-
     //Get the hsl values from the first generated color from each color div.
     const changedHueValue = obj.coloor.hueSliders[obj.index].value;
     const changedBrightValue = obj.coloor.brightSliders[obj.index].value;
@@ -273,10 +265,10 @@ class Coloor {
     //Add choose btn
     const paletteBtn = document.createElement("button");
     paletteBtn.classList.add("pick-palette-btn");
-    paletteBtn.classList.add(paletteObj.paletteNr);
+    // paletteBtn.classList.add(paletteObj.paletteNr);
     paletteBtn.innerText = "Choose";
 
-    //Attach event to the btn
+    //Attach event to the choose btn
     paletteBtn.addEventListener("click", (event) => {
       //Close Library
       document.querySelector(".library-container").classList.toggle("active");
@@ -284,9 +276,7 @@ class Coloor {
 
       let tempColors = [];
 
-      const colorDivs = event.target.parentElement.querySelectorAll(
-        ".smallDiv"
-      );
+      let colorDivs = event.target.parentElement.querySelectorAll(".smallDiv");
 
       colorDivs.forEach((colorDiv) => {
         tempColors.push(chroma(colorDiv.style.backgroundColor));
@@ -296,10 +286,63 @@ class Coloor {
       UpdateAllUIWorkFlow({ hexColors: tempColors, coloor });
     });
 
+    //Add delete btn
+    const deleteBtn = document.createElement("button");
+    deleteBtn.classList.add("delete-palette-btn");
+    deleteBtn.classList.add(paletteObj.paletteNr);
+    deleteBtn.innerText = "Delete";
+
+    //Attach event to the delete btn
+    deleteBtn.addEventListener("click", (event) => {
+      let eventTarget = event.target;
+      const targetIndex = eventTarget.classList[1];
+      let palette = this.libraryPopup.querySelectorAll(".custom-palette")[
+        targetIndex
+      ];
+
+      //Delete palette's from UI
+      palette.outerHTML = "";
+
+      //Resort paletteNr of existing palettes
+      this.libraryPopup
+        .querySelectorAll(".delete-palette-btn")
+        .forEach((deleteBtn, index) => {
+          if (deleteBtn.classList[1] > targetIndex) {
+            let oldPaletteNr = deleteBtn.classList[1];
+            deleteBtn.classList.remove(oldPaletteNr);
+            deleteBtn.classList.add(--oldPaletteNr);
+          }
+        });
+
+      //**Update LS
+      let paletteArray = this.checkLSArray("palettes");
+
+      //remove target palette
+      paletteArray = paletteArray.filter((palette) => {
+        //!!!!!palette.paletteNr is Numbber, targetIndex is string
+        return palette.paletteNr != targetIndex;
+      });
+
+      //reset paletteNr of existing palettes for LS
+      paletteArray = paletteArray.map((palette) => {
+        //!!!!!palette.paletteNr is Numbber, targetIndex is string
+        if (palette.paletteNr > targetIndex) {
+          palette.paletteNr -= 1;
+
+          return palette;
+        } else {
+          return palette;
+        }
+      });
+
+      localStorage.setItem("palettes", JSON.stringify(paletteArray));
+    });
+
     //Append more
     palette.append(title);
     palette.append(preview);
     palette.append(paletteBtn);
+    palette.append(deleteBtn);
 
     coloor.libraryPopup.append(palette);
   }
@@ -330,7 +373,9 @@ class Coloor {
     });
 
     //Generate Object
-    let paletteNr = coloor.libraryPopup.querySelectorAll("h4 ~ *").length;
+    let paletteNr = coloor.libraryPopup.querySelectorAll(".custom-palette")
+      .length;
+
     let paletteObj = {
       name,
       colors,

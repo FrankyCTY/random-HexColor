@@ -214,7 +214,8 @@ input[type="range"] {
   height: 5rem;
   flex: 1;
 }
-.pick-palette-btn {
+.pick-palette-btn,
+.delete-palette-btn {
   height: 5rem;
   border: none;
   padding: 1rem;
@@ -222,4 +223,8 @@ input[type="range"] {
   font-size: 1.2rem;
   background: rgb(41, 41, 41);
   color: white;
+}
+
+.delete-palette-btn {
+  background: #fb3654;
 }
