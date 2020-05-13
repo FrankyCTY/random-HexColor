@@ -279,3 +279,9 @@ input[type="range"] {
     padding: 2em 0;
   }
 }
+
+@media (pointer: none) {
+  :root {
+    font-size: 4vw;
+  }
+}
