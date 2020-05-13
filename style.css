@@ -83,7 +83,7 @@ svg {
 }
 .panel button {
   /* font-size: 1.2rem; */
-  font-size: clamp(0.3rem, 3vw, 1.2rem);
+  font-size: clamp(0.5rem, 3vw, 1.2rem);
   margin: 1em;
   padding: 1em 2em;
   background: rgb(31, 33, 63);
@@ -94,7 +94,7 @@ svg {
 }
 .panel p {
   /* font-size: 1.2rem; */
-  font-size: clamp(0.3rem, 3vw, 1.2rem);
+  font-size: clamp(0.5rem, 3vw, 1.2rem);
 }
 .library-panel,
 .generate-panel,
@@ -107,7 +107,7 @@ svg {
 .adjust,
 .lock {
   font-size: 2rem;
-  font-size: clamp(0.7rem, 3vw, 2rem);
+  font-size: clamp(1.2rem, 3vw, 2rem);
   border: none;
   background: none;
   cursor: pointer;
@@ -157,12 +157,12 @@ input[type="range"] {
 .copy-popup h4,
 .save-popup h4 {
   /* font-size: 2rem; */
-  font-size: clamp(0.5rem, 3vw, 2rem);
+  font-size: clamp(0.7rem, 3vw, 2rem);
   padding: 2em;
 }
 
 .library-popup h4 {
-  font-size: clamp(0.5rem, 3vw, 2rem);
+  font-size: clamp(0.7rem, 3vw, 2rem);
   padding: 2em;
 }
 
@@ -180,7 +180,7 @@ input[type="range"] {
 
 .save-name {
   /* font-size: 1.5rem; */
-  font-size: clamp(0.5rem, 3vw, 1.5rem);
+  font-size: clamp(0.7rem, 3vw, 1.5rem);
   padding: 1em;
 }
 .close-save,
@@ -271,12 +271,16 @@ input[type="range"] {
   }
 
   .library-popup h4 {
-    font-size: clamp(0.5rem, 3vw, 2rem);
+    /* font-size: clamp(0.7rem, 3vw, 2rem); */
     padding: 0.5em;
   }
 
   .custom-palette {
     justify-content: space-between;
     padding: 2em 0;
+  }
+
+  * {
+    font-size: 4vw;
   }
 }
