@@ -257,6 +257,7 @@ input[type="range"] {
 
   .color {
     display: flex;
+    height: 18vh;
     /* flex: 1; */
     flex-direction: row;
     align-items: center;
@@ -265,7 +266,7 @@ input[type="range"] {
 
   .controls {
     flex-direction: row;
-    width: 5em;
+    width: 8em;
     justify-content: space-around;
   }
 
@@ -277,11 +278,5 @@ input[type="range"] {
   .custom-palette {
     justify-content: space-between;
     padding: 2em 0;
-  }
-}
-
-@media (pointer: none) {
-  :root {
-    font-size: 4vw;
   }
 }
