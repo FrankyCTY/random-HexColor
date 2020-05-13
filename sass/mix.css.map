@@ -1,0 +1,10 @@
+{
+    "version": 3,
+    "mappings": "",
+    "sources": [
+        "mix.scss",
+        "_index.scss"
+    ],
+    "names": [],
+    "file": "mix.css"
+}
