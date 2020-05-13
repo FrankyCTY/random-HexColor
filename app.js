@@ -225,6 +225,14 @@ class Coloor {
     obj.coloor.lockBtns[obj.index].children[0].classList.toggle("fa-lock");
   }
 
+  loadLibrary() {
+    const paletteObjArray = this.checkLSArray("palettes");
+
+    paletteObjArray.forEach((paletteObj) => {
+      this.addPaletteToLibrary(paletteObj);
+    });
+  }
+
   //======================== Utils ========================
   generateClrFromSliders(obj) {
     // console.log(coloor.savedColors);
@@ -244,43 +252,7 @@ class Coloor {
     return newColor;
   }
 
-  copyHexText(obj) {
-    //Copy text
-    const clipBoard = document.createElement("textarea");
-    clipBoard.value = obj.hexText.innerText;
-    document.body.append(clipBoard);
-    clipBoard.select();
-    document.execCommand("copy");
-    document.body.removeChild(clipBoard);
-
-    //Pop up animation
-    document.querySelector(".copy-container").classList.add("active");
-    document.querySelector(".copy-popup").classList.add("active");
-  }
-
-  savePalette(coloor) {
-    //close save popup and overlay(container)
-    document.querySelector(".save-container").classList.toggle("active");
-    document.querySelector(".save-popup").classList.toggle("active");
-
-    const name = document.querySelector(".save-name").value;
-    const colors = [];
-    document.querySelectorAll(".color h2").forEach((headTwo) => {
-      colors.push(headTwo.innerText);
-    });
-
-    //Generate Object
-    let paletteNr = coloor.libraryPopup.querySelectorAll("h4 ~ *").length;
-    let paletteObj = {
-      name,
-      colors,
-      paletteNr,
-    };
-
-    this.pushToLS(paletteObj);
-    //Clear input value
-    document.querySelector(".save-name").value = "";
-
+  addPaletteToLibrary(paletteObj) {
     //Generate the palette for the library
     const palette = document.createElement("div");
     palette.classList.add("custom-palette");
@@ -330,6 +302,46 @@ class Coloor {
     palette.append(paletteBtn);
 
     coloor.libraryPopup.append(palette);
+  }
+
+  copyHexText(obj) {
+    //Copy text
+    const clipBoard = document.createElement("textarea");
+    clipBoard.value = obj.hexText.innerText;
+    document.body.append(clipBoard);
+    clipBoard.select();
+    document.execCommand("copy");
+    document.body.removeChild(clipBoard);
+
+    //Pop up animation
+    document.querySelector(".copy-container").classList.add("active");
+    document.querySelector(".copy-popup").classList.add("active");
+  }
+
+  savePalette(coloor) {
+    //close save popup and overlay(container)
+    document.querySelector(".save-container").classList.toggle("active");
+    document.querySelector(".save-popup").classList.toggle("active");
+
+    const name = document.querySelector(".save-name").value;
+    const colors = [];
+    document.querySelectorAll(".color h2").forEach((headTwo) => {
+      colors.push(headTwo.innerText);
+    });
+
+    //Generate Object
+    let paletteNr = coloor.libraryPopup.querySelectorAll("h4 ~ *").length;
+    let paletteObj = {
+      name,
+      colors,
+      paletteNr,
+    };
+
+    this.pushToLS(paletteObj);
+    //Clear input value
+    document.querySelector(".save-name").value = "";
+
+    coloor.addPaletteToLibrary(paletteObj);
   }
 
   pushToLS(paletteObj) {
@@ -384,6 +396,7 @@ document.addEventListener("DOMContentLoaded", () => {
   //compose
   const hexColors = coloor.generateRanColor(coloor);
   UpdateAllUIWorkFlow({ hexColors, coloor: coloor });
+  coloor.loadLibrary();
 });
 
 //Generate btn
@@ -462,5 +475,3 @@ document.querySelector(".close-library").addEventListener("click", () => {
   document.querySelector(".library-container").classList.toggle("active");
   document.querySelector(".library-popup").classList.toggle("active");
 });
-
-localStorage.clear();
