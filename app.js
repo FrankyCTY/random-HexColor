@@ -87,8 +87,7 @@ class Coloor {
 
       //======== 2. Color Saturation slider ========
       const noSat = obj.hexColors[index].set("hsl.s", 0);
-
-      const currentSat = obj.hexColors[index].saturate();
+      const currentSat = obj.hexColors[index].set("hsl.s", 0.5);
       const mostSat = obj.hexColors[index].set("hsl.s", 1);
       const scaledSat = chroma.scale([noSat, currentSat, mostSat]);
 
@@ -116,11 +115,13 @@ class Coloor {
       obj.index
     ].querySelectorAll('input[type="range"]');
 
+    const referenceColor = obj.coloor.savedColors[obj.index];
+
     //======== 1. Color Brightness slider ========
     const dark = "black";
     const white = "white";
-    // const midBrightness = hexColors[index].set("hsl.l", 0.5);
-    const midBrightness = obj.color.set("hsl.l", 0.5);
+
+    const midBrightness = referenceColor.set("hsl.l", 0.5);
     const scaledBrightness = chroma.scale([dark, midBrightness, white]);
 
     //set 'brightness' slider's background image
@@ -130,10 +131,10 @@ class Coloor {
     )`;
 
     //======== 2. Color Saturation slider ========
-    const noSat = obj.color.set("hsl.s", 0);
 
-    const currentSat = obj.color.saturate();
-    const mostSat = obj.color.set("hsl.s", 1);
+    const noSat = referenceColor.set("hsl.s", 0);
+    const currentSat = referenceColor.set("hsl.s", 0.5);
+    const mostSat = referenceColor.set("hsl.s", 1);
     const scaledSat = chroma.scale([noSat, currentSat, mostSat]);
 
     //set 'saturation' slider's background image
